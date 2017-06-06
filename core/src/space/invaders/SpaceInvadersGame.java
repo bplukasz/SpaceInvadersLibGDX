@@ -12,7 +12,7 @@ import space.invaders.screens.SplashScreen;
 public class SpaceInvadersGame extends Game {
 	SpriteBatch batch;
 	Texture img;
-	public final static int WIDTH = 480;
+	public final static int WIDTH = 850;
 	public final static int HEIGHT = 700;
 	private boolean paused;
 
