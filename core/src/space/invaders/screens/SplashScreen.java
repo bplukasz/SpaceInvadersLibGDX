@@ -7,14 +7,14 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 import space.invaders.SpaceInvadersGame;
+import space.invaders.entities.Alien;
 
 public class SplashScreen extends AbstractScreen {
 	
-	private Texture splashTexture;
+	private Alien monster1;
+	private Alien monster2;
+	private Alien monster3;
 	private Texture logoTexture;
-	private Image monster1;
-	private Image monster2;
-	private Image monster3;
 	private Image logoImg;
 	public SplashScreen(final SpaceInvadersGame game){
 		super(game);
@@ -29,18 +29,11 @@ public class SplashScreen extends AbstractScreen {
 	}
 	private void init() {
 		Gdx.input.setInputProcessor(stage);
-		splashTexture = new Texture("space_invaders_by_maleiva.jpg");
 		logoTexture = new Texture("spaceinvaders-logo.png");
-		monster1 = new Image(splashTexture);
-		monster2 = new Image(splashTexture);
-		monster3 = new Image(splashTexture);
+		monster1 = new Alien(200, 100);
+		monster2 = new Alien(350, 100);
+		monster3 = new Alien(500, 100);
 		logoImg = new Image(logoTexture);
-		monster1.setSize(50, 50);
-		monster2.setSize(50, 50);
-		monster3.setSize(50, 50);
-		monster1.setPosition(200, 100);
-		monster2.setPosition(350, 100);
-		monster3.setPosition(500, 100);
 		logoImg.setPosition(100, 350);
 		stage.addActor(logoImg);
 		Timer.schedule(new Task(){
