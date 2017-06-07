@@ -15,7 +15,8 @@ public class GameplayScreen extends AbstractScreen {
 	
 	Player player;
 	LinkedList<Alien> monsters;
-
+	Direction monstersDirection;
+	
 	public GameplayScreen(SpaceInvadersGame game) {
 		super(game);
 		initPlayer();
@@ -39,6 +40,20 @@ public class GameplayScreen extends AbstractScreen {
 			player.move(Direction.Right);			
 		}
 		
+		boolean borderIsCrossedFlag = false;
+		for(Alien monster:monsters){
+			if(monster.borderIsCrossed(game))
+				borderIsCrossedFlag=true;
+		}
+		if(borderIsCrossedFlag==true){
+			if(monstersDirection==Direction.Left)
+				monstersDirection=Direction.Right;
+			else monstersDirection=Direction.Left;
+		}
+		
+		for(Alien monster:monsters){
+			monster.move(monstersDirection);
+		}
 	}
 
 	private void initPlayer() {
@@ -55,6 +70,6 @@ public class GameplayScreen extends AbstractScreen {
 		for(Alien monster: monsters){
 			stage.addActor(monster);
 		}
+		monstersDirection=Direction.Right;
 	}
-
 }
