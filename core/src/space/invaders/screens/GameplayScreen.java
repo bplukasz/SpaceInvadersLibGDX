@@ -33,18 +33,20 @@ public class GameplayScreen extends AbstractScreen {
 	}
 	
 	private void update() {
-		if(Gdx.input.isKeyPressed(Keys.A)){
-			player.move(Direction.Left);
-		}
-		if(Gdx.input.isKeyPressed(Keys.D)){
-			player.move(Direction.Right);			
-		}
-		
+		keyboardHandle();
+		moveAllMonsters();
+	}
+
+	private void moveAllMonsters() {
 		boolean borderIsCrossedFlag = false;
 		for(Alien monster:monsters){
 			if(monster.borderIsCrossed(game))
+			{
 				borderIsCrossedFlag=true;
+				break;
+			}
 		}
+		
 		if(borderIsCrossedFlag==true){
 			if(monstersDirection==Direction.Left)
 				monstersDirection=Direction.Right;
@@ -71,5 +73,16 @@ public class GameplayScreen extends AbstractScreen {
 			stage.addActor(monster);
 		}
 		monstersDirection=Direction.Right;
+	}
+	
+	private void keyboardHandle(){
+		if(Gdx.input.isKeyPressed(Keys.A)){
+			if(!player.leftBorderIsCrossed(game))
+				player.move(Direction.Left);
+		}
+		if(Gdx.input.isKeyPressed(Keys.D)){
+			if(!player.rightBorderIsCrossed(game))
+				player.move(Direction.Right);			
+		}
 	}
 }
