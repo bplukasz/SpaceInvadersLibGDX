@@ -2,11 +2,14 @@ package space.invaders.screens;
 
 import java.util.LinkedList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 import space.invaders.SpaceInvadersGame;
 import space.invaders.entities.Player;
 import space.invaders.entities.Alien;
+import space.invaders.entities.Direction;
 
 public class GameplayScreen extends AbstractScreen {
 	
@@ -29,7 +32,12 @@ public class GameplayScreen extends AbstractScreen {
 	}
 	
 	private void update() {
-		
+		if(Gdx.input.isKeyPressed(Keys.A)){
+			player.move(Direction.Left);
+		}
+		if(Gdx.input.isKeyPressed(Keys.D)){
+			player.move(Direction.Right);			
+		}
 		
 	}
 
