@@ -4,6 +4,9 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 import space.invaders.SpaceInvadersGame;
@@ -13,16 +16,32 @@ import space.invaders.entities.Direction;
 
 public class GameplayScreen extends AbstractScreen {
 	
-	Player player;
-	LinkedList<Alien> monsters;
-	Direction monstersDirection;
+	private Player player;
+	private LinkedList<Alien> monsters;
+	private Direction monstersDirection;
+	private Label scoreLabel;
+	
 	
 	public GameplayScreen(SpaceInvadersGame game) {
 		super(game);
 		initPlayer();
 		initMonsters();
+		initScoreLabel();
 	}
 	
+	
+	private void initScoreLabel() {
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = new BitmapFont();
+		scoreLabel = new Label("Wynik: ", labelStyle);
+		scoreLabel.setX(700);
+		scoreLabel.setY(650);
+		stage.addActor(scoreLabel);
+		
+		
+	}
+
+
 	@Override
 	public void render(float delta){
 		super.render(delta);
