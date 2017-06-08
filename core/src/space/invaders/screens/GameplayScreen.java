@@ -21,14 +21,12 @@ public class GameplayScreen extends AbstractScreen {
 	private Direction monstersDirection;
 	private Label scoreLabel;
 	
-	
 	public GameplayScreen(SpaceInvadersGame game) {
 		super(game);
 		initPlayer();
 		initMonsters();
 		initScoreLabel();
 	}
-	
 	
 	private void initScoreLabel() {
 		LabelStyle labelStyle = new LabelStyle();
@@ -37,8 +35,6 @@ public class GameplayScreen extends AbstractScreen {
 		scoreLabel.setX(700);
 		scoreLabel.setY(650);
 		stage.addActor(scoreLabel);
-		
-		
 	}
 
 
@@ -54,22 +50,37 @@ public class GameplayScreen extends AbstractScreen {
 	private void update() {
 		keyboardHandle();
 		moveAllMonsters();
+		scoreLabel.setText("Wynik: " + game.getScore());
 	}
 
 	private void moveAllMonsters() {
-		boolean borderIsCrossedFlag = false;
+		boolean widthBorderIsCrossedFlag = false;
+		boolean bottomBorderIsCrossedFlag = false;
 		for(Alien monster:monsters){
-			if(monster.borderIsCrossed(game))
+			if(monster.widthBorderIsCrossed(game))
 			{
-				borderIsCrossedFlag=true;
+				widthBorderIsCrossedFlag=true;
 				break;
 			}
 		}
 		
-		if(borderIsCrossedFlag==true){
+		if(widthBorderIsCrossedFlag==true){
 			if(monstersDirection==Direction.Left)
 				monstersDirection=Direction.Right;
+			else if(monstersDirection==Direction.Right)
+				monstersDirection=Direction.Down;
 			else monstersDirection=Direction.Left;
+		}
+		
+		for(Alien monster:monsters){
+			if(monster.bottomBorderIsCrossed(game))
+			{
+				bottomBorderIsCrossedFlag=true;
+				break;
+			}
+		}
+		if(bottomBorderIsCrossedFlag){
+			// end game	
 		}
 		
 		for(Alien monster:monsters){

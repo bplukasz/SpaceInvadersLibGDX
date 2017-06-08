@@ -7,7 +7,7 @@ import space.invaders.SpaceInvadersGame;
 
 public class Alien extends Image {
 	private int xStepSize=3;
-	private int yStepSize=3;
+	private int yStepSize=25;
 	private int textureWidth=25;
 	private int textureHeigth=25;
 	public Alien(int x, int y){
@@ -27,9 +27,15 @@ public class Alien extends Image {
 			setY(getY()-yStepSize);
 	}
 	
-	public boolean borderIsCrossed(SpaceInvadersGame game){
+	public boolean widthBorderIsCrossed(SpaceInvadersGame game){
 		if(getX()+textureWidth<game.WIDTH&&getX()>0)
 			return false;
 		else return true;
+	}
+	
+	public boolean bottomBorderIsCrossed(SpaceInvadersGame game){
+		if(this.getY()<=100)
+			return true;
+		else return false;
 	}
 }
