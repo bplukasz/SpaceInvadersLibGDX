@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import space.invaders.SpaceInvadersGame;
 import space.invaders.entities.Player;
 import space.invaders.entities.Alien;
+import space.invaders.entities.Bullet;
 import space.invaders.entities.Direction;
 
 public class GameplayScreen extends AbstractScreen {
@@ -20,9 +21,11 @@ public class GameplayScreen extends AbstractScreen {
 	private LinkedList<Alien> monsters;
 	private Direction monstersDirection;
 	private Label scoreLabel;
+	private Object monitor;
 	
 	public GameplayScreen(SpaceInvadersGame game) {
 		super(game);
+		monitor = new Object();
 		initPlayer();
 		initMonsters();
 		initScoreLabel();
@@ -51,6 +54,10 @@ public class GameplayScreen extends AbstractScreen {
 		keyboardHandle();
 		moveAllMonsters();
 		scoreLabel.setText("Wynik: " + game.getScore());
+		
+		synchronized(monitor){
+			monitor.notifyAll();
+		}
 	}
 
 	private void moveAllMonsters() {
@@ -89,7 +96,7 @@ public class GameplayScreen extends AbstractScreen {
 	}
 
 	private void initPlayer() {
-		player = new Player();
+		player = new Player(monitor);
 		stage.addActor(player);
 	}
 	
@@ -113,6 +120,13 @@ public class GameplayScreen extends AbstractScreen {
 		if(Gdx.input.isKeyPressed(Keys.D)){
 			if(!player.rightBorderIsCrossed(game))
 				player.move(Direction.Right);			
+		}
+		if(Gdx.input.isKeyPressed(Keys.SPACE)){
+			Bullet bullet;
+			bullet = player.shot();
+			Thread thread = new Thread(bullet);
+			stage.addActor(bullet);
+			thread.start();
 		}
 	}
 }

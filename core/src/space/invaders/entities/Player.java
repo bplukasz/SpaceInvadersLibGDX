@@ -9,8 +9,10 @@ public class Player extends Image {
 	private int stepSize = 5;
 	private int textureWidth = 50;
 	private int textureHeight = 50;
-	public Player() {
+	private Object monitor;
+	public Player(Object monitor) {
 		super(new Texture("si_ship.png"));
+		this.monitor=monitor;
 		this.setSize(textureWidth,textureHeight);
 		this.setPosition(425, 50);
 	}
@@ -20,6 +22,11 @@ public class Player extends Image {
 			setX(getX()+stepSize);
 		else if(direction == Direction.Left)
 			setX(getX()-stepSize);
+	}
+	
+	public Bullet shot(){
+		Bullet bullet = new Bullet(getX()+textureWidth/2,getY()+textureHeight,Direction.Up, monitor);
+		return bullet;
 	}
 	
 	public boolean leftBorderIsCrossed(SpaceInvadersGame game){
