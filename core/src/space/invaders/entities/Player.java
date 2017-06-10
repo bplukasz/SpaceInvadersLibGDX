@@ -12,6 +12,8 @@ public class Player extends CheckCollision {
 	private static int textureWidth = 50;
 	private static int textureHeigth = 50;
 	private Object monitor;
+	private int maxBulletOnStage = 6;
+	
 	public Player(Object monitor) {
 		super(425,50,new Texture("si_ship.png"),textureWidth,textureHeigth);
 		this.monitor=monitor;
@@ -28,6 +30,8 @@ public class Player extends CheckCollision {
 		Bullet bullet = new Bullet(getX()+textureWidth/2,getY()+textureHeigth,Direction.Up, monitor);
 		return bullet;
 	}
+	
+	
 	
 	public boolean leftBorderIsCrossed(SpaceInvadersGame game){
 		if(getX()>0)

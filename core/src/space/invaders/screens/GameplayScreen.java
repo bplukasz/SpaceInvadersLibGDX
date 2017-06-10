@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import space.invaders.SpaceInvadersGame;
 import space.invaders.entities.Player;
 import space.invaders.infrastructure.Direction;
+import space.invaders.infrastructure.ObjectType;
 import space.invaders.entities.Alien;
 import space.invaders.entities.Bullet;
 
@@ -68,8 +69,10 @@ public class GameplayScreen extends AbstractScreen {
 				{
 					bulletsToRemove.add(bullet);
 					monstersToRemove.add(monster);
-					
 				}
+			}
+			if(bullet.gameBorderIsCrossed(game)){
+				bulletsToRemove.add(bullet);
 			}
 		}
 		for(Alien monster: monstersToRemove){
@@ -80,14 +83,12 @@ public class GameplayScreen extends AbstractScreen {
 		for(Bullet bullet: bulletsToRemove){
 			bullets.remove(bullet);
 			bullet.remove();
+			game.decrementBulletCounter(ObjectType.PLAYER);
 		}
-		
 		
 		synchronized(monitor){
 			monitor.notifyAll();
 		}
-		
-		
 	}
 
 	private void moveAllMonsters() {
@@ -153,15 +154,19 @@ public class GameplayScreen extends AbstractScreen {
 		}
 		if(Gdx.input.isKeyPressed(Keys.SPACE)){
 			timeHelper += Gdx.graphics.getDeltaTime();
-			if(timeHelper > 0.1)
+			if(game.canICreateBullet(ObjectType.PLAYER))
 			{
-				Bullet bullet;
-				bullet = player.shot();
-				Thread thread = new Thread(bullet);
-				stage.addActor(bullet);
-				bullets.add(bullet);
-				thread.start();
-				timeHelper = 0;
+				if(timeHelper > 0.1)
+				{
+					Bullet bullet;
+					bullet = player.shot();
+					Thread thread = new Thread(bullet);
+					stage.addActor(bullet);
+					bullets.add(bullet);
+					thread.start();
+					timeHelper = 0;
+					game.incrementBulletCounter(ObjectType.PLAYER);
+				}
 			}
 		}
 	}

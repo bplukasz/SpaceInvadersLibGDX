@@ -3,6 +3,7 @@ package space.invaders.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import space.invaders.SpaceInvadersGame;
 import space.invaders.infrastructure.CheckCollision;
 import space.invaders.infrastructure.Direction;
 
@@ -40,6 +41,12 @@ public class Bullet extends CheckCollision implements Runnable {
 				}
 			}
 		}
+	}
+
+	public boolean gameBorderIsCrossed(SpaceInvadersGame game) {
+		if(getY()<0 || getY()>game.HEIGHT)
+			return true;
+		return false;
 	}	
 
 }
