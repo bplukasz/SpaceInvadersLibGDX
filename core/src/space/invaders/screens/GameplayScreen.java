@@ -11,21 +11,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 import space.invaders.SpaceInvadersGame;
 import space.invaders.entities.Player;
+import space.invaders.infrastructure.Direction;
 import space.invaders.entities.Alien;
 import space.invaders.entities.Bullet;
-import space.invaders.entities.Direction;
 
 public class GameplayScreen extends AbstractScreen {
 	
 	private Player player;
 	private LinkedList<Alien> monsters;
+	private LinkedList<Bullet> bullets;
 	private Direction monstersDirection;
 	private Label scoreLabel;
 	private Object monitor;
 	
+	
 	public GameplayScreen(SpaceInvadersGame game) {
 		super(game);
 		monitor = new Object();
+		bullets = new LinkedList<Bullet>();
 		initPlayer();
 		initMonsters();
 		initScoreLabel();
@@ -55,9 +58,35 @@ public class GameplayScreen extends AbstractScreen {
 		moveAllMonsters();
 		scoreLabel.setText("Wynik: " + game.getScore());
 		
+		LinkedList<Bullet> bulletsToRemove = new LinkedList<Bullet>();
+		LinkedList<Alien> monstersToRemove = new LinkedList<Alien>();
+		for(Bullet bullet: bullets)
+		{
+			for(Alien monster: monsters){
+				if(bullet.overlaps(monster))
+				{
+					bulletsToRemove.add(bullet);
+					monstersToRemove.add(monster);
+					
+				}
+			}
+		}
+		for(Alien monster: monstersToRemove){
+			game.addScore();
+			monsters.remove(monster);
+			monster.remove();
+		}
+		for(Bullet bullet: bulletsToRemove){
+			bullets.remove(bullet);
+			bullet.remove();
+		}
+		
+		
 		synchronized(monitor){
 			monitor.notifyAll();
 		}
+		
+		
 	}
 
 	private void moveAllMonsters() {
@@ -126,6 +155,7 @@ public class GameplayScreen extends AbstractScreen {
 			bullet = player.shot();
 			Thread thread = new Thread(bullet);
 			stage.addActor(bullet);
+			bullets.add(bullet);
 			thread.start();
 		}
 	}

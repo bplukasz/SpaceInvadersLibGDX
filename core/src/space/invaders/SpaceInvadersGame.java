@@ -38,11 +38,11 @@ public class SpaceInvadersGame extends Game {
 		this.paused = paused;
 	}
 	
-	private void addScore() {
+	public void addScore() {
 		score+=1;
 	}
 	
-	private void addScore(int scoreToAdd) {
+	public void addScore(int scoreToAdd) {
 		score+=scoreToAdd;
 	}
 

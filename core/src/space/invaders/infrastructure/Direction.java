@@ -1,4 +1,4 @@
-package space.invaders.entities;
+package space.invaders.infrastructure;
 
 public enum Direction {
 	Up, 
