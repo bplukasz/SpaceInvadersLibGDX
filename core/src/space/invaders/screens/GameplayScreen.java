@@ -23,6 +23,7 @@ public class GameplayScreen extends AbstractScreen {
 	private Direction monstersDirection;
 	private Label scoreLabel;
 	private Object monitor;
+	private float timeHelper;
 	
 	
 	public GameplayScreen(SpaceInvadersGame game) {
@@ -151,12 +152,17 @@ public class GameplayScreen extends AbstractScreen {
 				player.move(Direction.Right);			
 		}
 		if(Gdx.input.isKeyPressed(Keys.SPACE)){
-			Bullet bullet;
-			bullet = player.shot();
-			Thread thread = new Thread(bullet);
-			stage.addActor(bullet);
-			bullets.add(bullet);
-			thread.start();
+			timeHelper += Gdx.graphics.getDeltaTime();
+			if(timeHelper > 0.1)
+			{
+				Bullet bullet;
+				bullet = player.shot();
+				Thread thread = new Thread(bullet);
+				stage.addActor(bullet);
+				bullets.add(bullet);
+				thread.start();
+				timeHelper = 0;
+			}
 		}
 	}
 }
