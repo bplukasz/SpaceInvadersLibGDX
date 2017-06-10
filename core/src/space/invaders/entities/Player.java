@@ -4,17 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import space.invaders.SpaceInvadersGame;
+import space.invaders.infrastructure.CheckCollision;
+import space.invaders.infrastructure.Direction;
 
-public class Player extends Image {
+public class Player extends CheckCollision {
 	private int stepSize = 5;
-	private int textureWidth = 50;
-	private int textureHeight = 50;
+	private static int textureWidth = 50;
+	private static int textureHeigth = 50;
 	private Object monitor;
 	public Player(Object monitor) {
-		super(new Texture("si_ship.png"));
+		super(425,50,new Texture("si_ship.png"),textureWidth,textureHeigth);
 		this.monitor=monitor;
-		this.setSize(textureWidth,textureHeight);
-		this.setPosition(425, 50);
 	}
 	
 	public void move(Direction direction){
@@ -25,7 +25,7 @@ public class Player extends Image {
 	}
 	
 	public Bullet shot(){
-		Bullet bullet = new Bullet(getX()+textureWidth/2,getY()+textureHeight,Direction.Up, monitor);
+		Bullet bullet = new Bullet(getX()+textureWidth/2,getY()+textureHeigth,Direction.Up, monitor);
 		return bullet;
 	}
 	

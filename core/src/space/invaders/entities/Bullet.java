@@ -3,19 +3,20 @@ package space.invaders.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Bullet extends Image implements Runnable {
-	private int textureWidth=3;
-	private int textureHeigth=6;
+import space.invaders.infrastructure.CheckCollision;
+import space.invaders.infrastructure.Direction;
+
+public class Bullet extends CheckCollision implements Runnable {
+	private static int textureWidth=3;
+	private static int textureHeigth=6;
 	private int yStepSize=4;
 	private Direction direction;
 	private Object monitor;
 	
 	public Bullet(float x, float y, Direction direction, Object monitor){
-		super(new Texture("bullet.jpg"));
+		super(x,y,new Texture("bullet.jpg"),textureWidth,textureHeigth);
 		this.monitor=monitor;
 		this.direction=direction;
-		this.setSize(textureWidth,textureHeigth);
-		this.setPosition(x, y);
 	}
 	
 	public void move(){
@@ -39,7 +40,6 @@ public class Bullet extends Image implements Runnable {
 				}
 			}
 		}
-	}
-	
+	}	
 
 }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public abstract class CheckCollision extends Image {
 
-	public CheckCollision(int x, int y, Texture texture, int textureWidth, int textureHeigth){
+	public CheckCollision(float x, float y, Texture texture, int textureWidth, int textureHeigth){
 		super(texture);
 		this.setSize(textureWidth, textureHeigth);
 		this.setPosition(x, y);

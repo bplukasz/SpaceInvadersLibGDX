@@ -4,16 +4,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import space.invaders.SpaceInvadersGame;
+import space.invaders.infrastructure.CheckCollision;
+import space.invaders.infrastructure.Direction;
 
-public class Alien extends Image {
+public class Alien extends CheckCollision {
 	private int xStepSize=3;
 	private int yStepSize=25;
-	private int textureWidth=25;
-	private int textureHeigth=25;
-	public Alien(int x, int y){
-		super(new Texture("space_invaders_by_maleiva.jpg"));
-		this.setSize(textureWidth,textureHeigth);
-		this.setPosition(x, y);
+	private static int textureWidth=25;
+	private static int textureHeigth=25;
+	public Alien(float x, float y){
+		super(x,y,new Texture("space_invaders_by_maleiva.jpg"),textureWidth,textureHeigth);
 	}
 	
 	public void move(Direction direction){
