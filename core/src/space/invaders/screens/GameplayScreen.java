@@ -59,7 +59,10 @@ public class GameplayScreen extends AbstractScreen {
 		keyboardHandle();
 		moveAllMonsters();
 		scoreLabel.setText("Wynik: " + game.getScore());
-		
+		checkAndHandleCollisions();	
+	}
+
+	private void checkAndHandleCollisions() {
 		LinkedList<Bullet> bulletsToRemove = new LinkedList<Bullet>();
 		LinkedList<Alien> monstersToRemove = new LinkedList<Alien>();
 		for(Bullet bullet: bullets)
@@ -124,6 +127,12 @@ public class GameplayScreen extends AbstractScreen {
 		for(Alien monster:monsters){
 			monster.move(monstersDirection);
 		}
+		
+		if(monsters.isEmpty())nextLevel();
+	}
+
+	private void nextLevel() {
+		initMonsters();
 	}
 
 	private void initPlayer() {
