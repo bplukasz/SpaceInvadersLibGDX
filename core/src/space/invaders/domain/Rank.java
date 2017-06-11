@@ -1,10 +1,12 @@
 package space.invaders.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 @Entity
 public class Rank {
 	@Id
+	@GeneratedValue
 	private int Id;
 	private String Nick;
 	private int Score;

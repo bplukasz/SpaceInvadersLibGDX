@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import javafx.concurrent.Task;
 import space.invaders.domain.Rank;
 import space.invaders.entities.Alien;
 import space.invaders.entities.Bullet;
@@ -214,13 +215,17 @@ public class SpaceInvadersGame extends Game {
 	}
 	
 	private void gameOver() {
-		Rank rank = new Rank();
-		rank.setId(2);
-		rank.setLevel(level);
-		rank.setScore(score);
-		rank.setNick("Lukasz");
-		DBContext context = new DBContext();
-		context.addScoreToRank(rank);
+		Thread thread1 = new Thread(new Runnable() {
+		    @Override
+		    public void run(){
+		    	Rank rank = new Rank();
+		    	rank.setLevel(level);
+				rank.setScore(score);
+				rank.setNick("Lukasz");
+				DBContext context = new DBContext();
+				context.addScoreToRank(rank);}
+		});
+		thread1.start();
 		this.setScreen(new GameOverScreen(this));
 	}
 	
