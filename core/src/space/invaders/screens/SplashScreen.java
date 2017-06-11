@@ -1,6 +1,7 @@
 package space.invaders.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -9,6 +10,9 @@ import com.badlogic.gdx.utils.Timer.Task;
 
 import space.invaders.SpaceInvadersGame;
 import space.invaders.entities.Alien;
+import space.invaders.entities.Bullet;
+import space.invaders.infrastructure.Direction;
+import space.invaders.infrastructure.ObjectType;
 
 public class SplashScreen extends AbstractScreen {
 	
@@ -21,50 +25,32 @@ public class SplashScreen extends AbstractScreen {
 	public SplashScreen(final SpaceInvadersGame game){
 		super(game);
 		init();
-		
-		Timer.schedule(new Task(){
-			@Override
-			public void run() {
-				game.setScreen(new GameplayScreen(game));
-			}
-		}, 8);
 	}
 	private void init() {
 		Gdx.input.setInputProcessor(stage);
-		logoTexture = new Texture("spaceinvaders-logo.png");
-		monster1 = new Alien(200, 100, new Object());
-		monster2 = new Alien(350, 100, new Object());
-		monster3 = new Alien(500, 100, new Object());
+		logoTexture = new Texture("splashscreen.jpg");
 		logoImg = new Image(logoTexture);
-		logoImg.setPosition(100, 350);
+		logoImg.setPosition(0, 0);
+		logoImg.setSize(game.WIDTH, game.HEIGHT);
 		stage.addActor(logoImg);
-		Timer.schedule(new Task(){
-			@Override
-			public void run() {
-				stage.addActor(monster1);
-			}
-		}, 2);
-		
-		Timer.schedule(new Task(){
-			@Override
-			public void run() {
-				stage.addActor(monster2);
-			}
-		}, 4);
-		
-		Timer.schedule(new Task(){
-			@Override
-			public void run() {
-				stage.addActor(monster3);
-			}
-		}, 6);
-	}
+	} 
 	
 	@Override
 	public void render(float delta){
 		super.render(delta);
+		update();
 		spriteBatch.begin();
 		stage.draw();
 		spriteBatch.end();
+	}
+	private void update() {
+		keyboardHandle();
+		
+	}
+	private void keyboardHandle(){
+		if(Gdx.input.isKeyPressed(Keys.ENTER)){
+			game.setScreen(new GameplayScreen(game));
+		}
+		
 	}
 }

@@ -1,5 +1,7 @@
 package space.invaders.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -53,11 +55,22 @@ public class GameOverScreen extends AbstractScreen {
 	@Override
 	public void render(float delta){
 		super.render(delta);
+		update();
 		scoreLabel.setText("Wynik: " + game.getScore());
 		levelLabel.setText("Level: " + game.getLevel());
 		spriteBatch.begin();
 		stage.draw();
 		spriteBatch.end();
+	}
+	private void update() {
+		keyboardHandle();
+		
+	}
+	private void keyboardHandle(){
+		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			Gdx.app.exit();
+		}
+		
 	}
 
 }

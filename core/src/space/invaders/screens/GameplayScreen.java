@@ -1,6 +1,8 @@
 package space.invaders.screens;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
@@ -12,9 +14,17 @@ public class GameplayScreen extends AbstractScreen {
 	
 	public GameplayScreen(SpaceInvadersGame game) {
 		super(game);
+		//initBackground();
 		initScoreLabel();
 		initLevelLabel();
 		game.startGame(stage);
+	}
+	
+	private void initBackground(){
+		Image backgroundImage = new Image(new Texture("stars.jpg"));
+		backgroundImage.setSize(game.WIDTH, game.HEIGHT);
+		backgroundImage.setPosition(0, 0);
+		stage.addActor(backgroundImage);
 	}
 	
 	private void initScoreLabel() {
