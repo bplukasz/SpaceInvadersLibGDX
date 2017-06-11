@@ -133,7 +133,7 @@ public class GameplayScreen extends AbstractScreen {
 			}
 		}
 		if(bottomBorderIsCrossedFlag){
-			// end game	
+			gameOver();
 		}
 		
 		for(Alien monster:monsters){
@@ -141,6 +141,10 @@ public class GameplayScreen extends AbstractScreen {
 		}
 		
 		if(monsters.isEmpty())nextLevel();
+	}
+
+	private void gameOver() {
+		game.setScreen(new GameOverScreen(game));
 	}
 
 	private void nextLevel() {
@@ -178,6 +182,9 @@ public class GameplayScreen extends AbstractScreen {
 		if(Gdx.input.isKeyPressed(Keys.D)){
 			if(!player.rightBorderIsCrossed(game))
 				player.move(Direction.Right);			
+		}
+		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			Gdx.app.exit();
 		}
 		if(Gdx.input.isKeyPressed(Keys.SPACE)){
 			timeHelper += Gdx.graphics.getDeltaTime();
