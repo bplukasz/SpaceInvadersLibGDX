@@ -2,6 +2,7 @@ package space.invaders.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -16,6 +17,7 @@ public class SplashScreen extends AbstractScreen {
 	private Alien monster3;
 	private Texture logoTexture;
 	private Image logoImg;
+	
 	public SplashScreen(final SpaceInvadersGame game){
 		super(game);
 		init();
