@@ -2,6 +2,10 @@ package space.invaders;
 
 import java.util.LinkedList;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -14,9 +18,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import space.invaders.domain.Rank;
 import space.invaders.entities.Alien;
 import space.invaders.entities.Bullet;
 import space.invaders.entities.Player;
+import space.invaders.infrastructure.DBContext;
 import space.invaders.infrastructure.Direction;
 import space.invaders.infrastructure.ObjectType;
 import space.invaders.screens.GameOverScreen;
@@ -56,7 +62,7 @@ public class SpaceInvadersGame extends Game {
 		initMonsters();
 		
 	}
-	
+
 	public void update() {
 		keyboardHandle();
 		moveAllMonsters();
@@ -181,7 +187,7 @@ public class SpaceInvadersGame extends Game {
 				if(bullet.overlaps(player))
 				{
 					bulletsToRemove.add(bullet);
-					setScreen(new GameOverScreen(this));
+					gameOver();
 				}
 			if(bullet.gameBorderIsCrossed(this)){
 				bulletsToRemove.add(bullet);
@@ -208,6 +214,13 @@ public class SpaceInvadersGame extends Game {
 	}
 	
 	private void gameOver() {
+		Rank rank = new Rank();
+		rank.setId(2);
+		rank.setLevel(level);
+		rank.setScore(score);
+		rank.setNick("Lukasz");
+		DBContext context = new DBContext();
+		context.addScoreToRank(rank);
 		this.setScreen(new GameOverScreen(this));
 	}
 	
