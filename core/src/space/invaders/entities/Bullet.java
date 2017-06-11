@@ -18,8 +18,6 @@ public class Bullet extends CheckCollision implements Runnable {
 	private Object monitor;
 	private static Sound sound=Gdx.audio.newSound(Gdx.files.internal("gun.mp3"));
 	
-
-	
 	public Bullet(float x, float y, Direction direction, Object monitor){
 		super(x,y,new Texture("bullet.jpg"),textureWidth,textureHeigth);
 		this.monitor=monitor;

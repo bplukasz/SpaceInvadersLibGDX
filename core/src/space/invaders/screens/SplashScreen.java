@@ -32,9 +32,9 @@ public class SplashScreen extends AbstractScreen {
 	private void init() {
 		Gdx.input.setInputProcessor(stage);
 		logoTexture = new Texture("spaceinvaders-logo.png");
-		monster1 = new Alien(200, 100);
-		monster2 = new Alien(350, 100);
-		monster3 = new Alien(500, 100);
+		monster1 = new Alien(200, 100, new Object());
+		monster2 = new Alien(350, 100, new Object());
+		monster3 = new Alien(500, 100, new Object());
 		logoImg = new Image(logoTexture);
 		logoImg.setPosition(100, 350);
 		stage.addActor(logoImg);

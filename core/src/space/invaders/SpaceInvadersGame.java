@@ -37,10 +37,12 @@ public class SpaceInvadersGame extends Game {
 	private Stage stage;
 	private Player player;
 	private LinkedList<Alien> monsters;
-	private LinkedList<Bullet> bullets;
+	private LinkedList<Bullet> bulletsFromPlayer;
+	private LinkedList<Bullet> bulletsFromMonsters;
 	private Direction monstersDirection;
 	private Object monitor;
 	private float timeHelper;
+	private float timeToRandomShot;
 
 	@Override
 	public void create () {
@@ -61,13 +63,19 @@ public class SpaceInvadersGame extends Game {
 		checkAndHandleCollisions();	
 	}
 	
+	public void createAndStartBullet(){
+		
+	}
+	
 	private void initVariables() {
 		monitor = new Object();
-		bullets = new LinkedList<Bullet>();
+		bulletsFromPlayer = new LinkedList<Bullet>();
+		bulletsFromMonsters= new LinkedList<Bullet>();
 		maxPlayerBulletsOnStage = 6;
 		maxAliensBulletsOnStage = 7;
 		playerBulletCounter=0;
 		alienBulletCounter=0;
+		timeToRandomShot=0;
 		level=1;
 	}
 
@@ -80,7 +88,7 @@ public class SpaceInvadersGame extends Game {
 		monsters = new LinkedList<Alien>();
 		for(int i=0; i<40; i++)
 		{
-			monsters.add(new Alien(63 + (i%10)*50, 600-(i/10)*50));
+			monsters.add(new Alien(63 + (i%10)*50, 600-(i/10)*50,monitor));
 		}
 		for(Alien monster: monsters){
 			stage.addActor(monster);
@@ -121,14 +129,29 @@ public class SpaceInvadersGame extends Game {
 		for(Alien monster:monsters){
 			monster.move(monstersDirection);
 		}
-		
+		for(Alien monster: monsters)
+		{
+			timeToRandomShot += Gdx.graphics.getDeltaTime();
+			if(timeToRandomShot>50){
+				Bullet bullet = monster.TryToShot(this);
+				if(bullet!=null)
+				{
+					Thread thread = new Thread(bullet);
+					stage.addActor(bullet);
+					bulletsFromMonsters.add(bullet);
+					thread.start();
+					timeToRandomShot=0;
+				}
+			}
+
+		}
 		if(monsters.isEmpty())nextLevel();
 	}
 	
 	private void checkAndHandleCollisions() {
 		LinkedList<Bullet> bulletsToRemove = new LinkedList<Bullet>();
 		LinkedList<Alien> monstersToRemove = new LinkedList<Alien>();
-		for(Bullet bullet: bullets)
+		for(Bullet bullet: bulletsFromPlayer)
 		{
 			for(Alien monster: monsters){
 				if(bullet.overlaps(monster))
@@ -141,17 +164,34 @@ public class SpaceInvadersGame extends Game {
 				bulletsToRemove.add(bullet);
 			}
 		}
+		
 		for(Alien monster: monstersToRemove){
 			this.addScore();
 			monsters.remove(monster);
 			monster.remove();
 		}
 		for(Bullet bullet: bulletsToRemove){
-			bullets.remove(bullet);
+			bulletsFromPlayer.remove(bullet);
 			bullet.remove();
 			this.decrementBulletCounter(ObjectType.PLAYER);
 		}
 		
+		for(Bullet bullet: bulletsFromMonsters)
+		{
+				if(bullet.overlaps(player))
+				{
+					bulletsToRemove.add(bullet);
+					setScreen(new GameOverScreen(this));
+				}
+			if(bullet.gameBorderIsCrossed(this)){
+				bulletsToRemove.add(bullet);
+			}
+		}
+		for(Bullet bullet: bulletsToRemove){
+			bulletsFromMonsters.remove(bullet);
+			bullet.remove();
+			this.decrementBulletCounter(ObjectType.ALIEN);
+		}
 		synchronized(monitor){
 			monitor.notifyAll();
 		}
@@ -193,7 +233,7 @@ public class SpaceInvadersGame extends Game {
 					bullet = player.shot();
 					Thread thread = new Thread(bullet);
 					stage.addActor(bullet);
-					bullets.add(bullet);
+					bulletsFromPlayer.add(bullet);
 					thread.start();
 					timeHelper = 0;
 					this.incrementBulletCounter(ObjectType.PLAYER);
@@ -212,7 +252,7 @@ public class SpaceInvadersGame extends Game {
 		if(whoCreateBullet==ObjectType.PLAYER)playerBulletCounter--;
 	}
 	
-	private boolean canICreateBullet(ObjectType who){
+	public boolean canICreateBullet(ObjectType who){
 		if(who==ObjectType.ALIEN){
 			if(alienBulletCounter<maxAliensBulletsOnStage)return true;
 		}
@@ -231,6 +271,14 @@ public class SpaceInvadersGame extends Game {
 	}
 	
 	//Getters and setters
+	public int getAlienBulletCounter() {
+		return alienBulletCounter;
+	}
+
+	public void setAlienBulletCounter(int alienBulletCounter) {
+		this.alienBulletCounter = alienBulletCounter;
+	}
+	
 	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}

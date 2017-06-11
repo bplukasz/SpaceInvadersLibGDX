@@ -31,8 +31,6 @@ public class Player extends CheckCollision {
 		return bullet;
 	}
 	
-	
-	
 	public boolean leftBorderIsCrossed(SpaceInvadersGame game){
 		if(getX()>0)
 			return false;
