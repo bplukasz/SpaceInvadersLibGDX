@@ -23,6 +23,7 @@ public class GameplayScreen extends AbstractScreen {
 	private LinkedList<Bullet> bullets;
 	private Direction monstersDirection;
 	private Label scoreLabel;
+	private Label levelLabel;
 	private Object monitor;
 	private float timeHelper;
 	
@@ -34,6 +35,7 @@ public class GameplayScreen extends AbstractScreen {
 		initPlayer();
 		initMonsters();
 		initScoreLabel();
+		initLevelLabel();
 	}
 	
 	private void initScoreLabel() {
@@ -43,6 +45,15 @@ public class GameplayScreen extends AbstractScreen {
 		scoreLabel.setX(700);
 		scoreLabel.setY(650);
 		stage.addActor(scoreLabel);
+	}
+	
+	private void initLevelLabel() {
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = new BitmapFont();
+		levelLabel = new Label("Level: ", labelStyle);
+		levelLabel.setX(100);
+		levelLabel.setY(650);
+		stage.addActor(levelLabel);
 	}
 
 
@@ -59,6 +70,7 @@ public class GameplayScreen extends AbstractScreen {
 		keyboardHandle();
 		moveAllMonsters();
 		scoreLabel.setText("Wynik: " + game.getScore());
+		levelLabel.setText("Level: " + game.getLevel());
 		checkAndHandleCollisions();	
 	}
 
@@ -133,6 +145,12 @@ public class GameplayScreen extends AbstractScreen {
 
 	private void nextLevel() {
 		initMonsters();
+		game.setLevel(game.getLevel()+1);
+		for(Alien monster: monsters){
+			monster.setAlienSpeed(game.getLevel()+2);
+		}
+		game.setMaxAliensBulletsOnStage(game.getLevel()+7);
+		game.setMaxPlayerBulletsOnStage(game.getLevel()+6);
 	}
 
 	private void initPlayer() {

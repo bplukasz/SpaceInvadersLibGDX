@@ -21,6 +21,9 @@ public class SpaceInvadersGame extends Game {
 	private int maxAliensBulletsOnStage;
 	private int playerBulletCounter;
 	private int alienBulletCounter;
+	private int level;
+	
+
 	public int getScore() {
 		return score;
 	}
@@ -31,6 +34,7 @@ public class SpaceInvadersGame extends Game {
 		maxAliensBulletsOnStage = 7;
 		playerBulletCounter=0;
 		alienBulletCounter=0;
+		level=1;
 		this.setScreen(new SplashScreen(this));
 	}
 	
@@ -52,6 +56,14 @@ public class SpaceInvadersGame extends Game {
 	
 	public void addScore(int scoreToAdd) {
 		score+=scoreToAdd;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 	
 	public void setMaxPlayerBulletsOnStage(int maxPlayerBulletsOnStage) {

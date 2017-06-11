@@ -38,4 +38,9 @@ public class Alien extends CheckCollision {
 			return true;
 		else return false;
 	}
+	
+	public void setAlienSpeed(int speed){
+		xStepSize=speed;
+	}
+	
 }
