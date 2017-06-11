@@ -16,7 +16,7 @@ public class Alien extends CheckCollision {
 	private static int textureHeigth=25;
 	private Object monitor;
 	public Alien(float x, float y, Object monitor){
-		super(x,y,new Texture("space_invaders_by_maleiva.jpg"),textureWidth,textureHeigth);
+		super(x,y,new Texture("invadergreen.png"),textureWidth,textureHeigth);
 		this.monitor=monitor;
 	}
 	
