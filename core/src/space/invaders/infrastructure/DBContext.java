@@ -27,7 +27,7 @@ public class DBContext {
 	}
 	
 	public List<Rank> getTop5Scores(){
-		TypedQuery<Rank> query = em.createQuery("SELECT r FROM Rank r ORDER BY r.score DESC", Rank.class);
+		TypedQuery<Rank> query = em.createQuery("SELECT r FROM Rank r ORDER BY r.Score DESC", Rank.class);
 		return query.setMaxResults(5).getResultList();
 	}
 	
