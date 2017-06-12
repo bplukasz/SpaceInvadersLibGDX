@@ -11,14 +11,20 @@ public abstract class CheckCollision extends Image {
 		this.setPosition(x, y);
 	}
 	public boolean overlaps(CheckCollision object){
-		if((this.getY()>object.getY() && this.getY()<object.getY()+object.getImageHeight())
-				||(this.getY()+this.getImageHeight()>object.getY() 
-						&& this.getY()+this.getImageHeight()<object.getY()+object.getImageHeight()))
-			if((this.getX()>object.getX() && this.getX()<object.getX()+object.getImageWidth())
-					||(this.getX()+this.getImageWidth()>object.getX() 
-							&& this.getX()+this.getImageWidth()<object.getX()+object.getImageWidth()))
+		if(checkYCollision(object))
+			if(checkXCollision(object))
 				return true;
 		return false;
 	}
-
+	
+	private boolean checkXCollision(CheckCollision object) {
+		return (this.getX()>object.getX() && this.getX()<object.getX()+object.getImageWidth())
+				||(this.getX()+this.getImageWidth()>object.getX() 
+						&& this.getX()+this.getImageWidth()<object.getX()+object.getImageWidth());
+	}
+	private boolean checkYCollision(CheckCollision object){
+		return (this.getY()>object.getY() && this.getY()<object.getY()+object.getImageHeight())
+				||(this.getY()+this.getImageHeight()>object.getY() 
+						&& this.getY()+this.getImageHeight()<object.getY()+object.getImageHeight());
+	}
 }

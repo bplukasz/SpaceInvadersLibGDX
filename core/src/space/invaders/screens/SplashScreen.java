@@ -18,10 +18,6 @@ import space.invaders.infrastructure.ObjectType;
 
 public class SplashScreen extends AbstractScreen {
 	
-	private Alien monster1;
-	private Alien monster2;
-	private Alien monster3;
-	private Texture logoTexture;
 	private Image logoImg;
 	
 	public SplashScreen(final SpaceInvadersGame game){
@@ -30,8 +26,7 @@ public class SplashScreen extends AbstractScreen {
 	}
 	private void init() {
 		Gdx.input.setInputProcessor(stage);
-		logoTexture = new Texture("splashscreen.jpg");
-		logoImg = new Image(logoTexture);
+		logoImg = new Image(new Texture("splashscreen.jpg"));
 		logoImg.setPosition(0, 0);
 		logoImg.setSize(game.WIDTH, game.HEIGHT);
 		logoImg.addListener(new ClickListener(){
