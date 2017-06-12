@@ -27,7 +27,7 @@ public class GameOverScreen extends AbstractScreen {
 	private Image monsterSayImg;
 	private TextField nickTextField;
 	private boolean scoreWasSaved;
-	
+	private boolean rankListIsLoaded;
 	
 	public GameOverScreen(SpaceInvadersGame game) {
 		super(game);
@@ -40,13 +40,14 @@ public class GameOverScreen extends AbstractScreen {
 
 	private void init(){
 		scoreWasSaved = false;
+		rankListIsLoaded = false;
 		initGameOverImg();
 		initScoreLabel();
 		initLevelLabel();
 		initMonsterPressEscImg();
 		initPressStartImg();
 		initNickTextField();
-		initRankList();
+		//initRankList();
 	}
 	
 	private void initScoreLabel() {
@@ -59,7 +60,7 @@ public class GameOverScreen extends AbstractScreen {
 	}
 	
 	private void initRankList() {
-	    Gdx.app.postRunnable(new Runnable(){
+	   Gdx.app.postRunnable(new Runnable(){
 	        public void run(){
 	        	DBContext context = new DBContext();
 				List<Rank> top5Scores = context.getTop5Scores();
@@ -183,6 +184,10 @@ public class GameOverScreen extends AbstractScreen {
 		spriteBatch.end();
 	}
 	private void update() {
+		if(!rankListIsLoaded){
+			initRankList();
+			rankListIsLoaded = true;
+		}
 		keyboardHandle();
 		
 	}
@@ -193,7 +198,9 @@ public class GameOverScreen extends AbstractScreen {
 		if(Gdx.input.isKeyPressed(Keys.ENTER)){
 			if(!scoreWasSaved){
 				scoreWasSaved=true;
+				rankListIsLoaded = false;
 				saveRankToDB();
+				nickTextField.setText("Saved!");
 			}
 		}
 	}
