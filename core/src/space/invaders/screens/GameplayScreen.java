@@ -14,19 +14,11 @@ public class GameplayScreen extends AbstractScreen {
 	
 	public GameplayScreen(SpaceInvadersGame game) {
 		super(game);
-		//initBackground();
 		initScoreLabel();
 		initLevelLabel();
 		game.startGame(stage);
 	}
-	
-	private void initBackground(){
-		Image backgroundImage = new Image(new Texture("stars.jpg"));
-		backgroundImage.setSize(game.WIDTH, game.HEIGHT);
-		backgroundImage.setPosition(0, 0);
-		stage.addActor(backgroundImage);
-	}
-	
+		
 	private void initScoreLabel() {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = new BitmapFont();

@@ -3,8 +3,10 @@ package space.invaders.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
@@ -32,6 +34,13 @@ public class SplashScreen extends AbstractScreen {
 		logoImg = new Image(logoTexture);
 		logoImg.setPosition(0, 0);
 		logoImg.setSize(game.WIDTH, game.HEIGHT);
+		logoImg.addListener(new ClickListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+				game.setScreen(new GameplayScreen(game));
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
 		stage.addActor(logoImg);
 	} 
 	

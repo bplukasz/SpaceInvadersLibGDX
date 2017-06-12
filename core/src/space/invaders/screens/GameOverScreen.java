@@ -6,11 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import space.invaders.SpaceInvadersGame;
 import space.invaders.domain.Rank;
@@ -139,15 +141,35 @@ public class GameOverScreen extends AbstractScreen {
 		pressStartImg = new Image(new Texture("buttonStart.jpg"));
 		pressStartImg.setSize(200,200);
 		pressStartImg.setPosition(600, -40);
+		pressStartImg.addListener(new ClickListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+				game.setScreen(new GameplayScreen(game));
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
+		
 		stage.addActor(pressStartImg);
 	}
 	
 	private void initNickTextField(){
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+		final Image helper = new Image();
+		helper.setSize(200, 50);
+		helper.setPosition(325, 100);
 		nickTextField = new TextField("set nick and press ENTER", skin);
 		nickTextField.setPosition(325, 100);		
 		nickTextField.setSize(200, 50);
+		helper.addListener(new ClickListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+				nickTextField.setText("");
+				helper.remove();
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
 		stage.addActor(nickTextField);
+		stage.addActor(helper);
 	}
 	
 	@Override

@@ -177,6 +177,7 @@ public class SpaceInvadersGame extends Game {
 			monster.remove();
 		}
 		for(Bullet bullet: bulletsToRemove){
+			bullet.stopTheThread();
 			bulletsFromPlayer.remove(bullet);
 			bullet.remove();
 			this.decrementBulletCounter(ObjectType.PLAYER);
@@ -194,6 +195,7 @@ public class SpaceInvadersGame extends Game {
 			}
 		}
 		for(Bullet bullet: bulletsToRemove){
+			bullet.stopTheThread();
 			bulletsFromMonsters.remove(bullet);
 			bullet.remove();
 			this.decrementBulletCounter(ObjectType.ALIEN);

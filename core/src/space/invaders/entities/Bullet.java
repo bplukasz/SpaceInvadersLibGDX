@@ -17,11 +17,13 @@ public class Bullet extends CheckCollision implements Runnable {
 	private Direction direction;
 	private Object monitor;
 	private static Sound sound=Gdx.audio.newSound(Gdx.files.internal("gun.mp3"));
+	private boolean threadIsRunningFlag;
 	
 	public Bullet(float x, float y, Direction direction, Object monitor){
 		super(x,y,new Texture("bullet.jpg"),textureWidth,textureHeigth);
 		this.monitor=monitor;
 		this.direction=direction;
+		threadIsRunningFlag=true;
 		sound.play();
 	}
 	
@@ -35,7 +37,7 @@ public class Bullet extends CheckCollision implements Runnable {
 	
 	@Override
 	public void run() {
-		while(true){
+		while(threadIsRunningFlag){
 			synchronized(monitor){
 				try{
 					move();
@@ -52,6 +54,10 @@ public class Bullet extends CheckCollision implements Runnable {
 		if(getY()<0 || getY()>game.HEIGHT)
 			return true;
 		return false;
-	}	
+	}
+	
+	public void stopTheThread(){
+		threadIsRunningFlag=false;
+	}
 
 }
