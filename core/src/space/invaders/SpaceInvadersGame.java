@@ -33,7 +33,6 @@ public class SpaceInvadersGame extends Game {
 	Texture img;
 	public final static int WIDTH = 850;
 	public final static int HEIGHT = 700;
-	private boolean paused;
 	private int score=0;
 	private int maxPlayerBulletsOnStage;
 	private int maxAliensBulletsOnStage;
@@ -67,10 +66,6 @@ public class SpaceInvadersGame extends Game {
 		keyboardHandle();
 		moveAllMonsters();
 		checkAndHandleCollisions();	
-	}
-	
-	public void createAndStartBullet(){
-		
 	}
 	
 	private void initVariables() {
@@ -176,13 +171,14 @@ public class SpaceInvadersGame extends Game {
 			monsters.remove(monster);
 			monster.remove();
 		}
+		monstersToRemove.clear();
 		for(Bullet bullet: bulletsToRemove){
 			bullet.stopTheThread();
 			bulletsFromPlayer.remove(bullet);
 			bullet.remove();
 			this.decrementBulletCounter(ObjectType.PLAYER);
 		}
-		
+		bulletsToRemove.clear();
 		for(Bullet bullet: bulletsFromMonsters)
 		{
 				if(bullet.overlaps(player))
@@ -200,6 +196,7 @@ public class SpaceInvadersGame extends Game {
 			bullet.remove();
 			this.decrementBulletCounter(ObjectType.ALIEN);
 		}
+		bulletsToRemove.clear();
 		synchronized(monitor){
 			monitor.notifyAll();
 		}
@@ -288,10 +285,6 @@ public class SpaceInvadersGame extends Game {
 		this.alienBulletCounter = alienBulletCounter;
 	}
 	
-	public void setPaused(boolean paused) {
-		this.paused = paused;
-	}
-	
 	public int getLevel() {
 		return level;
 	}
@@ -306,9 +299,5 @@ public class SpaceInvadersGame extends Game {
 
 	@Override
 	public void dispose () {
-	}
-	
-	public boolean isPaused() {
-		return paused;
 	}
 }

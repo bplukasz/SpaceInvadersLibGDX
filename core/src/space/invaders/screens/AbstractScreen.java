@@ -40,14 +40,13 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void pause() {
-		game.setPaused(true);
+	
 	}
 
 	@Override
 	public void resume() {
-		game.setPaused(false);
+		
 	}
-
 	@Override
 	public void hide() {
 	}
